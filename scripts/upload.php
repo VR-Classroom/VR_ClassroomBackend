@@ -18,8 +18,11 @@ function getStringBetween($str,$from,$to)
 
 $userid = getStringBetween($output,"UID:","|");
 
+$safe_file_name = basename($_FILES["fileToUpload"]["name"]);
+$safe_file_name = str_replace(' ', '_', $safe_file_name);
+
 $target_dir = "../users/" . $userid . "/";
-$target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+$target_file = $target_dir . $safe_file_name ;
 
 $uploadOk = 1;
 $imageFileType = pathinfo($target_file,PATHINFO_EXTENSION);
@@ -81,7 +84,7 @@ try{
 			$oldmask = umask(0);
 			chmod($target_file, 0777);	
 			umask($oldmask);
-			echo "</br>The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+			echo "</br>The file ".  $safe_file_name . " has been uploaded.";
 			$execute=shell_exec("/home/ubuntu/public_html/scripts/handle-presentation.sh $target_file");
 		} else {
 			echo "</br>Error uploading file.";
