@@ -26,7 +26,7 @@ if(mysqli_connect_errno()){
 	die("Connection Failed. " . mysqli_connect_error());
 }
 
-$sql = "SELECT UID, firstName, lastName, gender, privilege, email from USERS where email = ? and password = ?";
+$sql = "SELECT UID, firstName, lastName, gender, privilege, email, title from USERS where email = ? and password = ?";
 
 if($stmt = $conn->prepare($sql)){
 
@@ -46,11 +46,11 @@ if($stmt = $conn->prepare($sql)){
 		die('failed: ' . $sql);
 	}
 
-	$stmt->bind_result($UID,$firstName, $secondName,$gender,$privilege,$email);
+	$stmt->bind_result($UID,$firstName, $secondName,$gender,$privilege,$email,$title);
 
 
 	while ($stmt->fetch()) {
-echo "UID:".$UID. "|firstName:".$firstName . "|lastName:".$secondName. "|gender:" . $gender . "|privilege:".$privilege."|email:".$email;
+echo "UID:".$UID. "|firstName:".$firstName . "|lastName:".$secondName. "|gender:" . $gender . "|privilege:".$privilege."|email:".$email. "|title:".$title.";";
 //		echo "<pre>";
 //		echo "name: $name\n";
 //		echo "countryCode: $countryCode\n";

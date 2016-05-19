@@ -10,6 +10,7 @@ $PRIV=$_REQUEST['PRIV'];
 $BIRTH=$_REQUEST['BIRTH'];
 $EMAIL=$_REQUEST['EMAIL'];
 $PASS=$_REQUEST['PASS'];
+$TITLE=$_REQUEST['TITLE'];
 
 $servername = "localhost";
 //$servername = "52.38.66.127";
@@ -30,7 +31,7 @@ if(! ($FNAME && $LNAME && $PRIV && $EMAIL && $PASS) ){
 }
 
 
-$sql = "INSERT INTO USERS (firstName,lastName,gender,privilege,birthDay,email,password,creationDate) VALUES (?,?,?,?,?,?,?,NOW())";
+$sql = "INSERT INTO USERS (firstName,lastName,gender,privilege,birthDay,email,password,title,creationDate) VALUES (?,?,?,?,?,?,?,?,NOW())";
 
 if($stmt = $conn->prepare($sql)){
 
@@ -43,11 +44,11 @@ if($stmt = $conn->prepare($sql)){
 	   b    corresponding variable is a blob and will be sent in packets
 	 */
 
-	$stmt->bind_param('sssssss',$FNAME,$LNAME,$GENDER,$PRIV,$BIRTH,$EMAIL,$PASS);
+	$stmt->bind_param('ssssssss',$FNAME,$LNAME,$GENDER,$PRIV,$BIRTH,$EMAIL,$PASS,$TITLE);
 	//$stmt->bind_param("s", $EMAIL); 
 
 	if(!$stmt->execute()){
-		die('ERROR: ' . mysqli_error($conn));
+		die('ERROR1: ' . mysqli_error($conn));
 	}
 
 	$stmt->close();
@@ -55,7 +56,7 @@ if($stmt = $conn->prepare($sql)){
 	$sql = "SELECT LAST_INSERT_ID()";
 	if($stmt = $conn->prepare($sql)){
 		if(!$stmt->execute()){
-			die('ERROR: ' . mysqli_error($conn));
+			die('ERROR2: ' . mysqli_error($conn));
 		}
 		$stmt->bind_result($uid);
 		while($stmt->fetch()){
